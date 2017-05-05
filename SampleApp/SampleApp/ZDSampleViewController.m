@@ -42,6 +42,8 @@ static CGFloat const PADDING = 15.f;
     
     self.title = @"SDK Sample";
     
+    [self addObservers];
+    
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     scrollViewContent = [[UIView alloc] initWithFrame:self.view.frame];
     
@@ -242,6 +244,29 @@ static CGFloat const PADDING = 15.f;
         
         [ZDKRequests pushRequestListWithNavigationController:self.navigationController];
     }
+}
+
+- (void)addObservers {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(lowerBottomLayoutGuide) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(raiseBottomLayoutGuid) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)lowerBottomLayoutGuide {
+    
+    if ([[ZDKUIViewController topViewController] isKindOfClass:[ZDKUIViewController class]]) {
+        [self setLayoutGuide:ZDKLayoutRespectTop onController:(ZDKUIViewController*)[ZDKUIViewController topViewController]];
+    }
+}
+
+- (void)raiseBottomLayoutGuid {
+    if ([[ZDKUIViewController topViewController] isKindOfClass:[ZDKUIViewController class]]) {
+        [self setLayoutGuide:ZDKLayoutRespectAll onController:(ZDKUIViewController*)[ZDKUIViewController topViewController]];
+    }
+}
+
+- (void)setLayoutGuide:(ZDKLayoutGuide)guide onController:(ZDKUIViewController*)controller {
+    controller.layoutGuide = guide;
 }
 
 

@@ -131,8 +131,15 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
     navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     
+    UIViewController *randomViewController = [UIViewController new];
+    randomViewController.view.backgroundColor = [UIColor redColor];
+    
+    // Tab Bar Controller
+    UITabBarController *tabBar = [UITabBarController new];
+    tabBar.viewControllers = @[navController, randomViewController];
+    
     // assign nav controller as root
-    self.window.rootViewController = navController;
+    self.window.rootViewController = tabBar;
     
     // make key window
     [self.window makeKeyAndVisible];
